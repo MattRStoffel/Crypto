@@ -31,10 +31,34 @@ def primeTest(n):
             return False
     return True
 
-def randomPrime(minSize= 2**63, maxSize=2**64):
-    x = -1
-    while(not primeTest(x)):
-        x = random.randrange(minSize, maxSize)
-    return x
+def miller_rabin_test(test_number, rounds_of_testing = 100):
+    # Output: “composite” if n is found to be composite, “probably prime” otherwise
+    d = 0
+    s = test_number - 1
 
-print(randomPrime())
+    # d odd > 0 such that n − 1 = 2sd  # by factoring out powers of 2 from n − 1
+    while s % 2 == 0:
+        s //= 2
+        d += 1
+
+    for _ in range(rounds_of_testing):
+        a = random.randrange(2, test_number - 2)
+        x = pow(a, s, test_number)
+        if x == 1 or x == (test_number - 1): continue  # nontrivial square root of 1 modulo n
+        for _ in range(d - 1):
+            x = pow(x, 2, test_number)
+            if x == test_number - 1: return False # nontrivial square root of 1 modulo n
+        if not x == 1:
+            return False
+    return True
+
+def randomPrime(accuracy = 40, size= 1024, p = False):
+    if p:
+        print("Generating a prime number of 2 ^", size)
+    size = 2 ** size
+    x = random.randrange(size / 2, size - 1)
+    while(not miller_rabin_test(x, accuracy)):
+        x = random.randrange(size / 2, size - 1)
+    if p:
+        print("The number is: \n", x)
+    return x
