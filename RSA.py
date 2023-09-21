@@ -1,3 +1,4 @@
+#/usr/bin/python3
 import PrimeNumber as prime
 import math
 

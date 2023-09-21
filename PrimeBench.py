@@ -1,3 +1,4 @@
+#/usr/bin/python3
 from PrimeNumber import *
 import timeit
 import pandas as pd
