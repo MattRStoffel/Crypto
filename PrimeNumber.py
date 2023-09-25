@@ -3,7 +3,7 @@ import math
 import random
 
 def primeSive(n):
-    values = [True]*n
+    values = [True] * n
     for i in range(2,math.isqrt(len(values))+1):
         if(values[i]):
             x = i**2
